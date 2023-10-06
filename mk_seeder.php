@@ -34,7 +34,9 @@ function mk_seed($connection,$table_name){
     $result = $connection->query($query);
     $className = toCamelCase($table_name);
     // Generate the Laravel seeder file
+    $insert_array_string = "";
     $seeder_file_content = "<?php
+    namespace Database\Seeders;
 
     use Illuminate\Database\Seeder;
     use Illuminate\Support\Facades\DB;
@@ -47,9 +49,9 @@ function mk_seed($connection,$table_name){
     ";
 
     while ($row = $result->fetch_assoc()) {
-        $seeder_file_content .= "        DB::table('" . $table_name . "')->insert(" . makeArrayAsString($row) . ");\n";
+        $insert_array_string .= makeArrayAsString($row).",";
     }
-
+    $seeder_file_content .= "        DB::table('" . $table_name . "')->insert([".$insert_array_string. "]);\n";
     $seeder_file_content .= "    }
     }
     ";
