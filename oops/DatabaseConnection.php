@@ -19,12 +19,6 @@ class DatabaseConnection
             die("Connection failed: " . $this->connection->connect_error);
         }
     }
-
-    public function closeConnection()
-    {
-        $this->connection->close();
-    }
-
     public function fetchTableData($table_name)
     {
         $query = "SELECT * FROM " . $table_name;
@@ -36,6 +30,39 @@ class DatabaseConnection
         }
 
         return $data;
+    }
+    public function fetchTableNames()
+    {
+        try {
+            $query = "SHOW TABLES";
+            $result = $this->connection->query($query);
+
+            if (!$result) {
+                throw new Exception("Error fetching table names: " . $this->connection->error);
+            }
+
+            $tables = [];
+            while ($row = $result->fetch_array()) {
+                $tables[] = $row[0];
+            }
+
+            return $tables;
+        } catch (Exception $e) {
+            $this->handleError($e->getMessage());
+            return [];
+        }
+    }
+    public function closeConnection()
+    {
+        if ($this->connection) {
+            $this->connection->close();
+        }
+    }
+
+    private function handleError($errorMessage)
+    {
+        http_response_code(500); // Internal Server Error
+        echo json_encode(['error' => $errorMessage]);
     }
 }
 

@@ -25,8 +25,8 @@ class LaravelSeederGenerator
             }
         }
         ";
-
-        $seeder_file_name = $className . ".php";
+        $filepath = "seeders/";
+        $seeder_file_name = $filepath.$className . ".php";
         file_put_contents($seeder_file_name, $seeder_file_content);
 
         echo "Seeder file '{$seeder_file_name}' has been generated.\n";
@@ -38,7 +38,7 @@ class LaravelSeederGenerator
         $output = "\t\t\t\t\t[";
         foreach ($array as $key => $value) {
             if (!empty($value)) {
-                $output .= "'$key' => '$value', ";
+                $output .= "'$key' => `$value`, ";
             } else {
                 $output .= "'$key' => null, ";
             }
