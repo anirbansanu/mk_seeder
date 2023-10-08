@@ -6,6 +6,7 @@
     <title>Laravel Seeder Generator</title>
     <!-- Add Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.min.css" rel="stylesheet">
     <!-- Add Select2 CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css">
 </head>
@@ -54,11 +55,17 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.32/dist/sweetalert2.all.min.js"></script>
+
     <!-- Add Select2 JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <!-- Initialize Select2 for the tables select input -->
     <script>
         $(document).ready(function () {
+            
+            
+            
+
             $('#tables').select2({
                 placeholder: 'Select tables',
                 width: '100%', // Set the width to 100%
@@ -92,7 +99,16 @@
                         for (var i = 0; i < tablesData.length; i++) {
                             select.append(new Option(tablesData[i], tablesData[i], false, false));
                         }
-
+                        var Toast = Swal.fire({
+                            icon: 'success', // You can use 'success', 'error', 'warning', 'info', etc.
+                            title: 'Tables retrived successfully',
+                            // text: '',
+                            toast: true,
+                            position: 'top-end', // You can change the position to 'top-start', 'top-end', 'bottom-start', 'bottom-end', 'top', or 'bottom'
+                            showConfirmButton: false,
+                            timer: 3000 // Time in milliseconds to auto-close the notification (3 seconds in this case)
+                        });
+                        // [icon: "success",title: "Tables retrived successfully"]
                         // Show the tables select input
                         $('#tablesContainer').show();
                         // Show the submit button
