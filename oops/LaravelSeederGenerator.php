@@ -29,7 +29,7 @@ class LaravelSeederGenerator
         $seeder_file_name = $filepath.$className . ".php";
         file_put_contents($seeder_file_name, $seeder_file_content);
 
-        echo "Seeder file '{$seeder_file_name}' has been generated.\n";
+        return "Seeder file '{$seeder_file_name}' has been generated.";
         
     }
 

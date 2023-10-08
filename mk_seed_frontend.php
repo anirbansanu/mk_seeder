@@ -35,7 +35,13 @@
                     <button type="button" class="btn btn-primary" id="getTablesBtn">Get Tables</button>
                 </div>
             </div>
-            <div class="section-2" id="tablesContainer" style="display: none;">    
+            <div class="section-2" id="tablesContainer" style="display: none;">  
+                <div class="form-group">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                        <label class="form-check-label" for="flexSwitchCheckDefault">Checked To Select All Tables </label>
+                    </div>
+                </div>  
                 <div class="form-group" >
                     <label for="tables w-100">Select Tables:</label>
                     <select multiple class="form-control w-100" id="tables" name="tables[]">
@@ -61,10 +67,52 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <!-- Initialize Select2 for the tables select input -->
     <script>
+        
         $(document).ready(function () {
+            <?php 
+                if (isset($_GET['success_message']) && $_GET['success_message']) {
+                    echo "Swal.fire({
+                        icon: 'success', // You can use 'success', 'error', 'warning', 'info', etc.
+                        // title: \"".$_GET['success_message']."\",
+                        text: \"".$_GET['success_message']."\",
+                        toast: true,
+                        position: 'top-end', // You can change the position to 'top-start', 'top-end', 'bottom-start', 'bottom-end', 'top', or 'bottom'
+                        showConfirmButton: false,
+                        timer: 3000 // Time in milliseconds to auto-close the notification (3 seconds in this case)
+                    });";
+                }
+                if (isset($_GET['error_message']) && $_GET['error_message']) {
+                    echo "Swal.fire({
+                        icon: 'success', // You can use 'success', 'error', 'warning', 'info', etc.
+                        title: ".$_GET['error_message'].",
+                        // text: '',
+                        toast: true,
+                        position: 'top-end', // You can change the position to 'top-start', 'top-end', 'bottom-start', 'bottom-end', 'top', or 'bottom'
+                        showConfirmButton: false,
+                        timer: 3000 // Time in milliseconds to auto-close the notification (3 seconds in this case)
+                    });";
+                }
+                
+            ?>
+            function selectAll() {
+                $("#tables > option").prop("selected", true);
+                $("#tables").trigger("change");
+            }
+
+            function deselectAll() {
+                $("#tables > option").prop("selected", false);
+                $("#tables").trigger("change");
+            }
             
-            
-            
+            $("#flexSwitchCheckDefault").change(function() {
+                // Check the value of the checkbox
+                if ($(this).is(":checked")) {
+                    selectAll();
+                } else {
+                    // Checkbox is not checked
+                    deselectAll();
+                }
+            });
 
             $('#tables').select2({
                 placeholder: 'Select tables',
